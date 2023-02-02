@@ -125,7 +125,7 @@ class TransNet(nn.Module):
                  max_seq_length: int,
                  n_items: int,
                  ):
-        super().__init__()
+        super(TransNet, self).__init__()
 
         self.n_layers = n_layers
         self.n_heads = n_heads
