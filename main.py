@@ -7,25 +7,14 @@ from torch import nn
 class MyModel(nn.Module):
     def __init__(self):
         super(MyModel, self).__init__()
-        self.module = MultiHeadAttention()
 
-    def forward(self, _item_seq):
-        mask = torch.rand((1, 1, 2, 2)) < 0.5
-        tril_mask = torch.tril(mask)
-        return self.module(tril_mask)
-
-
-class MultiHeadAttention(nn.Module):
-
-    def __init__(self):
-        super(MultiHeadAttention, self).__init__()
-
-    def forward(self, attention_mask):
+    def forward(self, item_seq):
+        attention_mask = item_seq < 100
+        tril_mask = torch.tril(attention_mask)
         query_layer = torch.rand((1, 2, 2, 32))
         key_layer = torch.rand((1, 2, 32, 2))
         attention_scores = torch.matmul(query_layer, key_layer)
-        attention_scores = attention_scores + attention_mask
-        return attention_scores
+        return attention_scores + tril_mask
 
 
 if __name__ == '__main__':
